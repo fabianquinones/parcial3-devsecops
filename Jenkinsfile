@@ -242,6 +242,8 @@ pipeline {
                     withCredentials([string(credentialsId: 'grafana-admin-password', variable: 'GRAFANA_PASSWORD')]) {
                         run "docker compose -p ${env.COMPOSE_PROJECT} up -d --remove-orphans"
                     }
+                    run "docker run --rm --network ${env.DOCKER_NET} ${env.CURL_IMAGE} -sf --retry 15 " +
+                        "--retry-connrefused --retry-delay 2 -o /dev/null http://prometheus:9090/-/ready"
                     runStatus("docker kill -s HUP securedev-prometheus")
                     run "docker run --rm --network ${env.DOCKER_NET} ${env.CURL_IMAGE} -sf --retry 15 " +
                         "--retry-connrefused --retry-delay 2 -o /dev/null \"${env.APP_URL}\""
