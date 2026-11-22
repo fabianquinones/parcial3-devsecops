@@ -1,0 +1,25 @@
+# SonarQube
+services:
+  sonarqube:
+    image: sonarqube:26.10.0.133078-community
+    container_name: securedev-sonarqube
+    environment:
+      SONAR_TELEMETRY_ENABLE: "false"
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-extensions:/opt/sonarqube/extensions
+      - sonarqube-logs:/opt/sonarqube/logs
+    restart: unless-stopped
+    networks:
+      - sonar
+
+volumes:
+  sonarqube-data:
+  sonarqube-extensions:
+  sonarqube-logs:
+
+networks:
+  sonar:
+    name: sonar-net

@@ -1,0 +1,3 @@
+# pluginid	tipo	justificación
+43	FALSO_POSITIVO	"Source Code Disclosure - File Inclusion": ZAP envía name=hello y como /hello devuelve el nombre ("Hello, hello!") interpreta la diferencia como lectura de archivo. Revisión manual: app.py nunca abre ni incluye archivos. Revisado 2026-11-20.
+10106	RIESGO_ACEPTADO	"HTTP Only Site": el laboratorio corre sin TLS. En producción la app se publica detrás de un proxy inverso con HTTPS y HSTS (plan de mitigación). Revisado 2026-11-20.

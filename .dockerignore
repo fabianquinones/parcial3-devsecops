@@ -1,0 +1,13 @@
+.git
+reports/
+**/__pycache__/
+**/*.pyc
+*.md
+monitoring/
+scripts/
+Jenkinsfile
+docker-compose.yml
+docker-compose.sonar.yml
+sonar-project.properties
+.scannerwork/
+.github/

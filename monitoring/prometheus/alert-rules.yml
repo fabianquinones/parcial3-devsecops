@@ -1,0 +1,47 @@
+# Reglas de alerta
+groups:
+  - name: securedev-seguridad
+    rules:
+      - alert: AplicacionCaida
+        expr: up{job="securedev-app"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "La aplicación no responde o no expone métricas"
+          description: "Prometheus no puede leer /metrics de {{ $labels.instance }} hace más de 30 s."
+
+      - alert: IntentosDeInyeccionXSS
+        expr: sum(increase(input_rejected_total[2m])) > 3
+        labels:
+          severity: high
+        annotations:
+          summary: "Entradas maliciosas rechazadas en /hello (posible XSS o inyección)"
+          description: "{{ $value | printf \"%.0f\" }} peticiones rechazadas por validación en los últimos 2 minutos."
+
+      - alert: TasaErrores4xxAlta
+        expr: sum(rate(flask_http_request_total{status=~"4.."}[1m])) > 1
+        for: 30s
+        labels:
+          severity: medium
+        annotations:
+          summary: "Muchas respuestas 4xx (posible escaneo, enumeración o ataque)"
+          description: "{{ $value | printf \"%.2f\" }} respuestas 4xx por segundo."
+
+      - alert: ErroresServidor5xx
+        expr: sum(rate(flask_http_request_total{status=~"5.."}[1m])) > 0.1
+        for: 30s
+        labels:
+          severity: high
+        annotations:
+          summary: "Errores 5xx en la aplicación"
+          description: "{{ $value | printf \"%.2f\" }} errores 5xx por segundo (posible explotación o falla)."
+
+      - alert: TraficoAnomalo
+        expr: sum(rate(flask_http_request_total[1m])) > 5
+        for: 30s
+        labels:
+          severity: medium
+        annotations:
+          summary: "Volumen de tráfico anómalo"
+          description: "{{ $value | printf \"%.1f\" }} peticiones por segundo (posible escaneo automatizado o DoS)."

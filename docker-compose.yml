@@ -1,0 +1,62 @@
+services:
+  # Aplicación
+  app:
+    image: ${APP_IMAGE:-parcial3-app:latest}
+    container_name: securedev-app
+    ports:
+      - "5000:5000"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - devsecops
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    container_name: securedev-prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=7d
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    networks:
+      - devsecops
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:11.3.0
+    container_name: securedev-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:?Defina la variable GRAFANA_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - devsecops
+
+volumes:
+  prometheus-data:
+  grafana-data:
+
+networks:
+  devsecops:
+    name: devsecops-net
