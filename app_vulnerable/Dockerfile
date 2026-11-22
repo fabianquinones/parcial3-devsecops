@@ -1,5 +1,5 @@
 # Base
-FROM python:3.10-slim AS base
+FROM python:3.15-slim AS base
 WORKDIR /app
 COPY app_vulnerable/requirements.txt .
 RUN pip install -r requirements.txt
