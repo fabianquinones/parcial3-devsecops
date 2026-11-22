@@ -58,10 +58,10 @@ La primera vez usa **Build Now**. Esa ejecución carga los parámetros; desde la
 
 | Rama | pip-audit | Dependency-Check | Pruebas |
 |---|---|---|---|
-| PR de pip | **0** | 13 (solo de la imagen base `python:3.10-slim`: certifi, pip, wheel…) | Las funcionales pasan |
-| PR de pip + PR de Docker (base nueva, p. ej. `python:3.14-slim`) | **0** | **0** | Las funcionales pasan |
+| PR de pip (#3) | **0** | 12 (solo de la imagen base `python:3.10-slim`: certifi, pip, wheel…) | Las funcionales pasan |
+| PR de Docker (#2, `python:3.15-slim`) | 17 | 16 (Flask, Werkzeug y Jinja2) | La app no arranca: Werkzeug 2.2.2 no es compatible con Python 3.14+ |
 
-Las pruebas de seguridad siguen fallando por el XSS y el debug, que son del código y no de las dependencias (eso se corrige en `app/`). Haz *Merge* de ambos PR en GitHub solo cuando el pipeline confirme que no aparecen CVE nuevas.
+Las pruebas de seguridad siguen fallando por el XSS y el debug, que son del código y no de las dependencias (eso se corrige en `app/`). El PR de pip se integró porque no agrega CVE nuevas; el de Docker queda en espera porque el pipeline lo bloqueó.
 
 ## 6. Dónde ver los resultados
 

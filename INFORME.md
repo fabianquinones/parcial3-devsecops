@@ -157,7 +157,7 @@ SonarQube marca que la app Flask no tiene protección CSRF. Se clasifica como **
 |---|---|---|
 | Pruebas pytest (13) | **10 fallidas**, 3 aprobadas | **13/13 aprobadas** (cobertura 97,6 %) |
 | Bandit (severidad media o superior) | **1**: B201 `debug=True` (High) | **0** |
-| SonarQube | **3 vulnerabilidades** (S4502, S4507, S6471), seguridad **D**, Quality Gate **ERROR** | **0 vulnerabilidades**, seguridad **A**, Quality Gate **OK** |
+| SonarQube | **3 vulnerabilidades** (S4502, S4507, S6471), seguridad **D**, etapa UNSTABLE | **0 vulnerabilidades**, seguridad **A**, Quality Gate **OK** |
 | pip-audit | **17 vulnerabilidades** en 3 paquetes | **0** |
 | OWASP Dependency-Check | **28 hallazgos** (26 CVE distintas) en 10 componentes; 1 crítica y 7 altas | **0** |
 | OWASP ZAP (Alto/Medio sin triage) | **2 altas** (XSS Reflected, XSS DOM) y **2 medias** | **0** |
@@ -369,8 +369,8 @@ Las alertas descartadas se registran con su justificación en `zap-riesgos-acept
 
 | Build | Versión | Resultado | Pruebas | Bandit | SonarQube | pip-audit | Dep.-Check | ZAP (A/M sin triage) |
 |---|---|---|---|---|---|---|---|---|
-| #[COMPLETAR] | vulnerable | UNSTABLE | 3/13 | 1 | 3 vulns (D) | 17 | 28 | 4 |
-| #[COMPLETAR] | corregida | SUCCESS | 13/13 | 0 | 0 (A) | 0 | 0 | 0 |
+| #3 | vulnerable | UNSTABLE | 3/13 | 1 | 3 vulns (D) | 17 | 28 | 4 |
+| #6 | corregida | SUCCESS | 13/13 | 0 | 0 (A) | 0 | 0 | 0 |
 
 ---
 
